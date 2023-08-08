@@ -11,6 +11,14 @@ train_info_models = {
         'tokenizer_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B',
     },
 
+    'xverse-13b-int4': {
+        'model_type': 'xverse',
+        'model_name_or_path': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4',
+        'config_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4/config.json',
+        'tokenizer_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4',
+    },
+
+
 
 }
 

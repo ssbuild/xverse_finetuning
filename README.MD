@@ -16,7 +16,7 @@
 ## weigtht select one is suitable for you
 支持且不限于以下权重    
 - [XVERSE-13B](https://huggingface.co/xverse/XVERSE-13B)
-
+- [xverse-13b-int4](https://huggingface.co/ssbuild/xverse-13b-int4)
 
 
 ## data sample

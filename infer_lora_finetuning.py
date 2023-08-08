@@ -8,16 +8,16 @@ from transformers import HfArgumentParser,AutoConfig
 
 from data_utils import train_info_args, NN_DataHelper,global_args
 from aigc_zoo.model_zoo.llm.llm_model import MyTransformer,LoraArguments,PromptArguments
-from aigc_zoo.utils.llm_generate import Generate
+from aigc_zoo.utils.xverse_generate import Generate
 
 
 if __name__ == '__main__':
     train_info_args['seed'] = None
-    parser = HfArgumentParser((ModelArguments, DataArguments))
-    model_args, data_args = parser.parse_dict(train_info_args, allow_extra_keys=True)
+    parser = HfArgumentParser((ModelArguments, ))
+    (model_args,) = parser.parse_dict(train_info_args, allow_extra_keys=True)
 
 
-    dataHelper = NN_DataHelper(model_args, None, data_args)
+    dataHelper = NN_DataHelper(model_args)
     tokenizer, _, _, _ = dataHelper.load_tokenizer_and_config()
     
 

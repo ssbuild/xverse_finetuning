@@ -6,16 +6,16 @@ from deep_training.data_helper import ModelArguments, DataArguments
 from transformers import HfArgumentParser
 from data_utils import train_info_args, NN_DataHelper, get_deepspeed_config
 from aigc_zoo.model_zoo.llm.llm_model import MyTransformer
-from aigc_zoo.utils.llm_generate import Generate
+from aigc_zoo.utils.xverse_generate import Generate
 
 
 deep_config = get_deepspeed_config()
 
 if __name__ == '__main__':
-    parser = HfArgumentParser((ModelArguments, DataArguments))
-    model_args, data_args = parser.parse_dict(train_info_args, allow_extra_keys=True)
+    parser = HfArgumentParser((ModelArguments,))
+    (model_args,)  = parser.parse_dict(train_info_args, allow_extra_keys=True)
 
-    dataHelper = NN_DataHelper(model_args, None, data_args)
+    dataHelper = NN_DataHelper(model_args)
     tokenizer, config, _,_= dataHelper.load_tokenizer_and_config()
 
     pl_model = MyTransformer(config=config, model_args=model_args,torch_dtype=config.torch_dtype,)

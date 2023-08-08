@@ -69,7 +69,7 @@ if __name__ == '__main__':
             # lora_model 调用子对象方法
             response = Generate.generate(lora_model, query=input, tokenizer=tokenizer, max_new_tokens=512,
                                          eos_token_id=config.eos_token_id,
-                                         do_sample=False, top_p=0.7, temperature=0.95, )
+                                         do_sample=False, top_p=0.7, temperature=1.0, )
             print('input', input)
             print('output', response)
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
         # lora_model 调用子对象方法
         response = Generate.generate(lora_model, query=input, tokenizer=tokenizer, max_new_tokens=512,
                                      eos_token_id=config.eos_token_id,
-                                     do_sample=False, top_p=0.7, temperature=0.95, )
+                                     do_sample=False, top_p=0.7, temperature=1.0, )
         print('input', input)
         print('output', response)
 

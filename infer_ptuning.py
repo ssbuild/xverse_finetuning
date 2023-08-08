@@ -49,6 +49,6 @@ if __name__ == '__main__':
         for input in text_list:
             response = Generate.generate(model, query=input, tokenizer=tokenizer, max_new_tokens=512,
                                          eos_token_id=config.eos_token_id,
-                                         do_sample=False, top_p=0.7, temperature=0.95, )
+                                         do_sample=False, top_p=0.7, temperature=1.0, )
             print('input', input)
             print('output', response)

@@ -5,7 +5,7 @@ import json
 import os
 from config.constant_map import train_info_models
 
-train_model_config = train_info_models['bloom-560m']
+train_model_config = train_info_models['XVERSE-13B']
 
 global_args = {
     "load_in_8bit": False, 

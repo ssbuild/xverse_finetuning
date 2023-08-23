@@ -11,8 +11,7 @@ train_model_config = train_info_models['XVERSE-13B']
 
 
 global_args = {
-    "load_in_8bit": False, 
-    "load_in_4bit": False,
+
     #load_in_4bit 量化配置
     "quantization_config": None,
     "config_merge": {

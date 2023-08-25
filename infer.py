@@ -2,11 +2,10 @@
 # @Author  : tk
 # @FileName: infer
 import torch
-from deep_training.data_helper import ModelArguments, DataArguments
-from transformers import HfArgumentParser
-from data_utils import train_info_args, NN_DataHelper, get_deepspeed_config
-from aigc_zoo.model_zoo.llm.llm_model import MyTransformer
-from aigc_zoo.utils.xverse_generate import Generate
+from deep_training.data_helper import ModelArguments
+from transformers import HfArgumentParser, GenerationConfig
+from data_utils import train_info_args, NN_DataHelper, get_deepspeed_config,build_messages
+from aigc_zoo.model_zoo.xverse.llm_model import MyTransformer
 
 
 deep_config = get_deepspeed_config()
@@ -27,7 +26,7 @@ if __name__ == '__main__':
             # 按需修改，目前只支持 4/8 bit 量化 ， 可以保存量化模型
             model.half().quantize(4).cuda()
             # 保存量化权重
-            # model.save_pretrained('xverse-13b-int4',max_shard_size="2GB")
+            # model.save_pretrained('xverse-13b-chat-int4',max_shard_size="2GB")
             # exit(0)
         else:
             # 已经量化
@@ -39,9 +38,21 @@ if __name__ == '__main__':
                  "晚上睡不着应该怎么办",
                  "从南京到上海的路线",
                  ]
+
+    generation_config = GenerationConfig(**{
+        "pad_token_id": 1,
+        "bos_token_id": 2,
+        "eos_token_id": 3,
+        "max_new_tokens": 512,
+        "temperature": 0.5,
+        "top_k": 30,
+        "top_p": 0.85,
+        "repetition_penalty": 1.1,
+        "do_sample": True,
+    })
+
     for input in text_list:
-        response = Generate.generate(model, query=input, tokenizer=tokenizer, max_new_tokens=512,
-                                          eos_token_id=config.eos_token_id,
-                                          do_sample=True, top_p=0.7, temperature=1.0, repetition_penalty=1.1)
+        messages = build_messages(input)
+        response = model.chat(tokenizer=tokenizer,messages=messages, generation_config=generation_config)
         print('input', input)
         print('output', response)

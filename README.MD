@@ -1,7 +1,8 @@
 ## update information
    - [deep_training](https://github.com/ssbuild/deep_training)
 
-```text
+```text 
+    08-25 support xverse chat
     08-08 初始化xerse finetuning deep_training 版本 0.1.15.rc2
 
 ```
@@ -15,6 +16,8 @@
 
 ## weigtht select one is suitable for you
 支持且不限于以下权重    
+- [XVERSE-13B-Chat](https://huggingface.co/xverse/XVERSE-13B-Chat)
+- [xverse-13b-chat-int4](https://huggingface.co/ssbuild/xverse-13b-chat-int4)
 - [XVERSE-13B](https://huggingface.co/xverse/XVERSE-13B)
 - [xverse-13b-int4](https://huggingface.co/ssbuild/xverse-13b-int4)
 
@@ -86,6 +89,11 @@ a answer   must
     # infer_ptuning.py 推理p-tuning-v2微调模型
      python infer_finetuning.py
 
+chat模型
+![image](asserts/2.png)
+![image](asserts/3.png)
+
+基座模型
 ![image](asserts/1.png)
 
 ## training

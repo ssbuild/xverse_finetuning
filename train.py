@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import os.path
 import torch
 from deep_training.data_helper import ModelArguments, DataArguments, TrainingArguments
 from deep_training.trainer.pl.modelcheckpoint import ModelCheckpointEx
@@ -9,7 +8,7 @@ from lightning.pytorch.callbacks import LearningRateMonitor
 from lightning.pytorch.strategies import DeepSpeedStrategy
 from transformers import HfArgumentParser
 from data_utils import NN_DataHelper, train_info_args, get_deepspeed_config, global_args
-from aigc_zoo.model_zoo.llm.llm_model import MyTransformer, PetlArguments, LoraConfig, PromptArguments
+from aigc_zoo.model_zoo.xverse.llm_model import MyTransformer, PetlArguments, LoraConfig, PromptArguments
 
 
 

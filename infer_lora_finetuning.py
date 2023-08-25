@@ -3,11 +3,11 @@
 # @FileName: infer_lora_finetuning
 import os
 import torch
-from deep_training.data_helper import ModelArguments, DataArguments
-from transformers import HfArgumentParser,AutoConfig
+from deep_training.data_helper import ModelArguments
+from transformers import HfArgumentParser, AutoConfig, GenerationConfig
 
-from data_utils import train_info_args, NN_DataHelper,global_args
-from aigc_zoo.model_zoo.llm.llm_model import MyTransformer,PetlArguments,PromptArguments
+from data_utils import train_info_args, NN_DataHelper, global_args, build_messages
+from aigc_zoo.model_zoo.xverse.llm_model import MyTransformer,PetlArguments,PromptArguments
 from aigc_zoo.utils.xverse_generate import Generate
 
 
@@ -59,9 +59,21 @@ if __name__ == '__main__':
                      "晚上睡不着应该怎么办",
                      "从南京到上海的路线",
                      ]
+
+        generation_config = GenerationConfig(**{
+            "pad_token_id": 1,
+            "bos_token_id": 2,
+            "eos_token_id": 3,
+            "max_new_tokens": 512,
+            "temperature": 0.5,
+            "top_k": 30,
+            "top_p": 0.85,
+            "repetition_penalty": 1.1,
+            "do_sample": True,
+        })
+
         for input in text_list:
-            response = Generate.generate(model, query=input, tokenizer=tokenizer, max_new_tokens=512,
-                                         eos_token_id=config.eos_token_id,
-                                         do_sample=False, top_p=0.7, temperature=1.0, )
+            messages = build_messages(input)
+            response = model.chat(tokenizer=tokenizer,messages=messages, generation_config=generation_config)
             print('input', input)
             print('output', response)

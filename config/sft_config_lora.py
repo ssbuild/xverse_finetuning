@@ -5,9 +5,7 @@ import json
 import os
 import torch
 from transformers import BitsAndBytesConfig
-from config.constant_map import train_info_models,train_target_modules_maps
-
-train_model_config = train_info_models['XVERSE-13B']
+from config.constant_map import train_model_config,train_target_modules_maps
 
 
 global_args = {

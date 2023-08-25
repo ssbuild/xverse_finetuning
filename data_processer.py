@@ -12,6 +12,8 @@ DEFAULT_EOS_TOKEN = "</s>"
 DEFAULT_BOS_TOKEN = "</s>"
 DEFAULT_UNK_TOKEN = "</s>"
 
+user_prompt, assist_prompt = "Human: ", "Assistant: "
+
 class DataStrategy(Enum):
     sup = 1
     unsup = 2
@@ -46,8 +48,9 @@ class TokenUnSupervision:
         if len(prefix) > 0:
             input_ids_all += tokenizer.encode(text=prefix)
 
+        global user_prompt, assist_prompt
         for idx, (question, answer) in enumerate(examples):
-            text = question + answer
+            text = user_prompt + question + assist_prompt + answer
             ids = tokenizer.encode(text=text)
             if len(ids) <= 3:
                 continue
@@ -74,9 +77,10 @@ class TokenSupervision:
     def process(cls, tokenizer: PreTrainedTokenizer,config,stride, max_seq_length, examples):
         prefix, examples = examples
         ds = []
+        global user_prompt, assist_prompt
         for idx, (question, answer) in enumerate(examples):
-            a_ids = tokenizer.encode(text=prefix+question,add_special_tokens=False)[:max_seq_length-3]
-            b_ids = tokenizer.encode(text=answer)
+            a_ids = tokenizer.encode(text=prefix+ user_prompt +question,add_special_tokens=False)[:max_seq_length-3]
+            b_ids = tokenizer.encode(text=assist_prompt+answer)
             assert len(b_ids)
             input_ids_all = a_ids + b_ids
             labels_all = [-100] * len(a_ids) + b_ids
@@ -94,14 +98,15 @@ class TokenSupervisionRounds:
     def process(cls, tokenizer: PreTrainedTokenizer,config,stride, max_seq_length, examples):
         prefix, examples = examples
         ds = []
+        global user_prompt, assist_prompt
         prompt_text = ''
         for idx, (question, answer) in enumerate(examples):
             if idx == 0:
-                a_text = question
+                a_text = user_prompt+ question
             else:
-                a_text = prompt_text + "[Round {}]\n问：{}\n答：".format(idx, question)
+                a_text = prompt_text + "[Round {}]\n问：{}\n答：".format(idx,user_prompt+ question)
 
-            prompt_text += "[Round {}]\n问：{}\n答：{}".format(idx, question, answer)
+            prompt_text += "[Round {}]\n问：{}\n答：{}".format(idx, question,assist_prompt+ answer)
             a_ids = tokenizer.encode(text=prefix+a_text,add_special_tokens=False)[:max_seq_length-3]
             b_ids = tokenizer.encode(text=answer)
 

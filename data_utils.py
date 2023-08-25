@@ -10,7 +10,7 @@ import typing
 import numpy as np
 import torch
 from deep_training.data_helper import DataHelper, ModelArguments, TrainingArguments, DataArguments
-from aigc_zoo.model_zoo.llm.llm_model import PetlArguments,LoraConfig,PromptArguments
+from aigc_zoo.model_zoo.xverse.llm_model import PetlArguments,LoraConfig,PromptArguments
 from fastdatasets.record import load_dataset as Loader, RECORD, WriterObject, gfile
 from transformers import PreTrainedTokenizer, HfArgumentParser, PretrainedConfig
 from data_processer import DataStrategy, TokenSupervision, TokenUnSupervision, TokenSupervisionRounds, \
@@ -36,7 +36,25 @@ data_conf = {
 
 }
 
+def build_messages(query,history = None):
+    if history is None:
+        history = []
+    messages = []
+    for q, a in history:
+        messages.append({
+            "role": "user",
+            "content": q
+        })
+        messages.append({
+            "role": "assistant",
+            "content": a
+        })
 
+    messages.append({
+        "role": "user",
+        "content": query
+    })
+    return messages
 
 def preprocess(text):
   return text

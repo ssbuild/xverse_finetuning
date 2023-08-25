@@ -4,6 +4,20 @@
 # @File：model_maps
 
 train_info_models = {
+    'XVERSE-13B-Chat': {
+        'model_type': 'xverse',
+        'model_name_or_path': '/data/nlp/pre_models/torch/xverse/XVERSE-13B-Chat',
+        'config_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B-Chat/config.json',
+        'tokenizer_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B-Chat',
+    },
+
+    'xverse-13b-chat-int4': {
+        'model_type': 'xverse',
+        'model_name_or_path': '/data/nlp/pre_models/torch/xverse/xverse-13b-chat-int4',
+        'config_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-chat-int4/config.json',
+        'tokenizer_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-chat-int4',
+    },
+
     'XVERSE-13B': {
         'model_type': 'xverse',
         'model_name_or_path': '/data/nlp/pre_models/torch/xverse/XVERSE-13B',
@@ -17,7 +31,6 @@ train_info_models = {
         'config_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4/config.json',
         'tokenizer_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4',
     },
-
 
 
 }
@@ -43,3 +56,6 @@ train_target_modules_maps = {
     'cpmant' : ['project_q','project_v'],
     'rwkv' : ['key','value','receptance'],
 }
+
+
+train_model_config = train_info_models['XVERSE-13B-Chat']

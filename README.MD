@@ -1,7 +1,8 @@
 ## update information
    - [deep_training](https://github.com/ssbuild/deep_training)
 
-```text
+```text 
+    08-25 support xverse chat
     08-08 初始化xerse finetuning deep_training 版本 0.1.15.rc2
 
 ```

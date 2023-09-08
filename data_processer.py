@@ -12,7 +12,6 @@ DEFAULT_EOS_TOKEN = "</s>"
 DEFAULT_BOS_TOKEN = "</s>"
 DEFAULT_UNK_TOKEN = "</s>"
 
-user_prompt, assist_prompt = "Human: ", "Assistant: "
 
 class DataStrategy(Enum):
     tunction = 1
@@ -47,7 +46,7 @@ def build_template_xverse(query, answer = None, history=None):
     if history is not None:
         for q,a in history:
             prompt += "Human: {}\n\nAssistant: {}".format(q,a)
-    prompt += "User: {}\n\nAssistant:".format(query)
+    prompt += "Human: {}\n\nAssistant: ".format(query)
     if answer is not None:
         prompt += answer
     return prompt

@@ -90,11 +90,11 @@ a answer   must
      python infer_finetuning.py
 
 chat模型
-![image](asserts/2.png)
-![image](asserts/3.png)
+![image](assets/2.png)
+![image](assets/3.png)
 
 基座模型
-![image](asserts/1.png)
+![image](assets/1.png)
 
 ## training
 ```text

@@ -19,8 +19,8 @@ class DataStrategy(Enum):
 
 
 
-def build_template_xverse(query, answer = None, history=None):
-    prompt = ''
+def build_template_xverse(query, answer = None,prefix=None, history=None):
+    prompt = prefix or ''
     if history is not None:
         for q,a in history:
             prompt += "Human: {}\n\nAssistant: {}".format(q,a)
@@ -29,8 +29,8 @@ def build_template_xverse(query, answer = None, history=None):
         prompt += answer
     return prompt
 
-def build_template_default(query, answer = None, history=None):
-    prompt = ''
+def build_template_default(query, answer = None,prefix=None, history=None):
+    prompt = prefix or ''
     if history is not None:
         for q,a in history:
             prompt += "User: {}\nAssistant:{}".format(q,a)
@@ -39,8 +39,8 @@ def build_template_default(query, answer = None, history=None):
         prompt += answer
     return prompt
 
-def build_template_tiger(query,answer = None, history=None):
-    prompt = ''
+def build_template_tiger(query,answer = None,prefix=None, history=None):
+    prompt = prefix or ''
     tok_ins = "\n\n### Instruction:\n"
     tok_res = "\n\n### Response:\n"
     if history is not None:
@@ -92,20 +92,11 @@ class TokenIdsMaker:
                 else:
                     a_ids.pop(0)
             b_ids += [config.eos_token_id]
-            input_ids_all = a_ids + b_ids
-            labels_all = copy.deepcopy(input_ids_all) if not sup else [-100] * len(a_ids) + copy.deepcopy(b_ids)
-            pos = 0
-            while pos < len(input_ids_all):
-                input_ids = input_ids_all[pos:pos + max_seq_length - len(sptoken)]
-                labels = labels_all[pos:pos + max_seq_length - len(sptoken)]
-
-                pos += pos + max_seq_length - len(sptoken)
-                if np.all(np.asarray(labels) == -100):
-                    continue
-
-                input_ids = sptoken + input_ids
-                labels = sptoken + labels if not sup else [-100] * len(sptoken) + labels
-                ds.append(cls.final(tokenizer, input_ids, labels, max_seq_length))
+            input_ids = a_ids + b_ids
+            labels = copy.deepcopy(input_ids) if not sup else [-100] * len(a_ids) + copy.deepcopy(b_ids)
+            input_ids = sptoken + input_ids
+            labels = sptoken + labels if not sup else [ -100 ] * len(sptoken) + labels
+            ds.append(cls.final(tokenizer, input_ids, labels, max_seq_length))
         return ds
 
 

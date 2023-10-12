@@ -1,47 +1,42 @@
 # @Time    : 2023/4/2 22:49
 # @Author  : tk
 # @FileName: infer
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),'..')))
 
 import torch
 from deep_training.data_helper import ModelArguments
-from transformers import HfArgumentParser, AutoConfig, GenerationConfig
-from data_utils import train_info_args, NN_DataHelper, get_deepspeed_config, build_messages
+from transformers import HfArgumentParser, GenerationConfig
+from data_utils import train_info_args, NN_DataHelper, get_deepspeed_config,build_messages
 from aigc_zoo.model_zoo.xverse.llm_model import MyTransformer
 
-deep_config = get_deepspeed_config()
 
+deep_config = get_deepspeed_config()
 
 if __name__ == '__main__':
     parser = HfArgumentParser((ModelArguments,))
     (model_args,)  = parser.parse_dict(train_info_args, allow_extra_keys=True)
 
     dataHelper = NN_DataHelper(model_args)
-    tokenizer, _, _,_= dataHelper.load_tokenizer_and_config()
-    
+    tokenizer, config, _,_= dataHelper.load_tokenizer_and_config()
 
-    config = AutoConfig.from_pretrained('./best_ckpt')
     pl_model = MyTransformer(config=config, model_args=model_args,torch_dtype=config.torch_dtype,)
-
-    # deepspeed 权重使用转换脚本命令
-    # 一般根据时间排序选最新的权重文件夹
-    # cd best_ckpt/last
-    # python zero_to_fp32.py . ../last.ckpt
-
-    train_weight = './best_ckpt/last.ckpt'
-    pl_model.load_sft_weight(train_weight,strict=True)
-
-    # 保存hf权重
-    # config.save_pretrained('convert/')
-
-    # 保存sft p-tuning-v2 权重
-    #  pl_model.save_sft_weight('convert/pytorch_model_sft_ptv2.bin')
-
-    # 保存sft权重
-    # pl_model.save_sft_weight('convert/pytorch_model_sft.bin')
-
     model = pl_model.get_llm_model()
-
-    model.eval().half().cuda()
+    model = model.eval()
+    if hasattr(model,'quantize'):
+        # 量化
+        if not model.quantized:
+            # 按需修改，目前只支持 4/8 bit 量化 ， 可以保存量化模型
+            model.half().quantize(4).cuda()
+            # 保存量化权重
+            # model.save_pretrained('xverse-13b-chat-int4',max_shard_size="2GB")
+            # exit(0)
+        else:
+            # 已经量化
+            model.half().cuda()
+    else:
+        model.half().cuda()
 
     text_list = ["写一个诗歌，关于冬天",
                  "晚上睡不着应该怎么办",
@@ -62,6 +57,6 @@ if __name__ == '__main__':
 
     for input in text_list:
         messages = build_messages(input)
-        response = model.chat(tokenizer=tokenizer,messages=messages,generation_config=generation_config)
+        response = model.chat(tokenizer=tokenizer,messages=messages, generation_config=generation_config)
         print('input', input)
         print('output', response)

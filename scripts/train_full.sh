@@ -12,13 +12,24 @@ export enable_lora=false
 export load_in_bit=0
 
 
-mode="train"
+
+
+usage() { echo "Usage: $0 [-m <train|dataset>]" 1>&2; exit 1; }
+
+
 while getopts m: opt
 do
 	case "${opt}" in
 		m) mode=${OPTARG};;
+    *)
+      usage
+      ;;
 	esac
 done
+
+if [ "${mode}" != "dataset" ]  && [ "${mode}" != "train" ] ; then
+    usage
+fi
 
 if [[ "${mode}" == "dataset" ]] ; then
     python ../data_utils.py
@@ -27,6 +38,17 @@ fi
 
 if [[ "${trainer_backend}" == "pl" ]] ; then
   # pl 多卡 修改配置文件 devices
+
+    ### 多机多卡训练
+
+  #  例子 3个机器 每个机器 4个卡
+  #  修改train.py Trainer num_nodes = 3
+  #  MASTER_ADDR=10.0.0.1 MASTER_PORT=6667 WORLD_SIZE=12 NODE_RANK=0 python train.py
+  #  MASTER_ADDR=10.0.0.1 MASTER_PORT=6667 WORLD_SIZE=12 NODE_RANK=1 python train.py
+  #  MASTER_ADDR=10.0.0.1 MASTER_PORT=6667 WORLD_SIZE=12 NODE_RANK=2 python train.py
+
+   # pl 多卡 修改配置文件 devices
+
   python ../train.py
 elif [[ "${trainer_backend}" == "cl" ]] ; then
   # 多机多卡

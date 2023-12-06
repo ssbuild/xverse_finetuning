@@ -19,6 +19,8 @@
 
 ## weigtht select one is suitable for you
 支持且不限于以下权重    
+- [XVERSE-65B-Chat](https://huggingface.co/xverse/XVERSE-65B-Chat)
+- [XVERSE-7B-Chat](https://huggingface.co/xverse/XVERSE-7B-Chat)
 - [XVERSE-13B-Chat](https://huggingface.co/xverse/XVERSE-13B-Chat)
 - [xverse-13b-chat-int4](https://huggingface.co/ssbuild/xverse-13b-chat-int4)
 - [XVERSE-13B](https://huggingface.co/xverse/XVERSE-13B)

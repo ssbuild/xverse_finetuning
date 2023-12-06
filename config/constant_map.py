@@ -16,31 +16,46 @@ __all__ = [
 ]
 
 MODELS_MAP = {
+    'XVERSE-7B-Chat': {
+        'model_type': 'xverse',
+        'model_name_or_path': '/data/nlp/pre_models/torch/xverse/XVERSE-7B-Chat',
+        'config_name': '/data/nlp/pre_models/torch/xverse/XVERSE-7B-Chat',
+        'tokenizer_name': '/data/nlp/pre_models/torch/xverse/XVERSE-7B-Chat',
+    },
+
+    'XVERSE-65B-Chat': {
+        'model_type': 'xverse',
+        'model_name_or_path': '/data/nlp/pre_models/torch/xverse/XVERSE-65B-Chat',
+        'config_name': '/data/nlp/pre_models/torch/xverse/XVERSE-65B-Chat',
+        'tokenizer_name': '/data/nlp/pre_models/torch/xverse/XVERSE-65B-Chat',
+    },
+    
+    
     'XVERSE-13B-Chat': {
         'model_type': 'xverse',
         'model_name_or_path': '/data/nlp/pre_models/torch/xverse/XVERSE-13B-Chat',
-        'config_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B-Chat/config.json',
+        'config_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B-Chat',
         'tokenizer_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B-Chat',
     },
 
     'xverse-13b-chat-int4': {
         'model_type': 'xverse',
         'model_name_or_path': '/data/nlp/pre_models/torch/xverse/xverse-13b-chat-int4',
-        'config_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-chat-int4/config.json',
+        'config_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-chat-int4',
         'tokenizer_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-chat-int4',
     },
 
     'XVERSE-13B': {
         'model_type': 'xverse',
         'model_name_or_path': '/data/nlp/pre_models/torch/xverse/XVERSE-13B',
-        'config_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B/config.json',
+        'config_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B',
         'tokenizer_name': '/data/nlp/pre_models/torch/xverse/XVERSE-13B',
     },
 
     'xverse-13b-int4': {
         'model_type': 'xverse',
         'model_name_or_path': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4',
-        'config_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4/config.json',
+        'config_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4',
         'tokenizer_name': '/data/nlp/pre_models/torch/xverse/xverse-13b-int4',
     },
 

@@ -98,7 +98,7 @@ dataHelper.make_dataset_with_args(data_args.train_file,mixed_data=False, shuffle
 
 - [pytorch-task-example](https://github.com/ssbuild/pytorch-task-example)
 - [tf-task-example](https://github.com/ssbuild/tf-task-example)
-- [chatmoss_finetuning](https://github.com/ssbuild/chatmoss_finetuning)
+- [moss_finetuning](https://github.com/ssbuild/moss_finetuning)
 - [chatglm_finetuning](https://github.com/ssbuild/chatglm_finetuning)
 - [chatglm2_finetuning](https://github.com/ssbuild/chatglm_finetuning)
 - [t5_finetuning](https://github.com/ssbuild/t5_finetuning)
